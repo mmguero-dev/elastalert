@@ -1,10 +1,10 @@
-v ?= v0.2.0b2
+v ?= v0.2.1
 
 all: build
 
 build:
 	docker pull alpine:latest && docker pull node:alpine
-	docker build --build-arg ELASTALERT_VERSION=$(v) -t elastalert .
+	docker build --build-arg ELASTALERT_VERSION=$(v) -t elastalert-python3 .
 
 server: build
 	docker run -it --rm -p 3030:3030 \
