@@ -1,4 +1,4 @@
-FROM python:3.6-alpine as py-ea
+FROM python:3.7-alpine as py-ea
 ARG ELASTALERT_VERSION=v0.2.1
 ENV ELASTALERT_VERSION=${ELASTALERT_VERSION}
 # URL from which to download Elastalert.
@@ -19,8 +19,8 @@ RUN apk add --update --no-cache ca-certificates openssl-dev openssl libffi-dev g
 WORKDIR "${ELASTALERT_HOME}"
 
 # Install Elastalert.
-# see: https://github.com/Yelp/elastalert/issues/1654
-RUN sed -i 's/jira>=1.0.10/jira>=1.0.10,<1.0.15/g' setup.py && \
+RUN sed -i "s/'jira>=1.*'/'jira>=2.0.0'/g" setup.py && \
+    sed -i 's/jira>=1.*/jira>=2.0.0/g' requirements.txt && \
     python3 setup.py install && \
     pip3 install -r requirements.txt
 
@@ -31,7 +31,7 @@ ENV TZ Etc/UTC
 
 RUN apk add --update --no-cache curl tzdata python2 python3 make libmagic
 
-COPY --from=py-ea /usr/local/lib/python3.6/site-packages /usr/lib/python3.6/site-packages
+COPY --from=py-ea /usr/local/lib/python3.7/site-packages /usr/lib/python3.7/site-packages
 COPY --from=py-ea /opt/elastalert /opt/elastalert
 COPY --from=py-ea /usr/local/bin/elastalert* /usr/bin/
 
