@@ -14,7 +14,10 @@ RUN apk add --update --no-cache ca-certificates openssl-dev openssl libffi-dev g
     wget -O elastalert.zip "${ELASTALERT_URL}" && \
     unzip elastalert.zip && \
     rm elastalert.zip && \
-    mv e* "${ELASTALERT_HOME}"
+    mv e* "${ELASTALERT_HOME}" && \
+    cd "${ELASTALERT_HOME}" && \
+    # fix bug with python3
+    wget -qO- https://github.com/Yelp/elastalert/pull/2438/commits/0022a01f4cca0a83d4f26eed6ef137fcdae65f55.patch | patch -p1
 
 WORKDIR "${ELASTALERT_HOME}"
 
