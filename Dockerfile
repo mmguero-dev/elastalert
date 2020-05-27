@@ -1,5 +1,5 @@
 FROM python:3.8-alpine as py-ea
-ARG ELASTALERT_VERSION=v0.2.1
+ARG ELASTALERT_VERSION=v0.2.4
 ENV ELASTALERT_VERSION=${ELASTALERT_VERSION}
 # URL from which to download Elastalert.
 ARG ELASTALERT_URL=https://github.com/Yelp/elastalert/archive/$ELASTALERT_VERSION.zip
@@ -16,8 +16,6 @@ RUN apk add --update --no-cache ca-certificates openssl-dev openssl libffi-dev g
     rm elastalert.zip && \
     mv e* "${ELASTALERT_HOME}" && \
     cd "${ELASTALERT_HOME}" && \
-    # fix bug with python3 (see https://github.com/Yelp/elastalert/pull/2438)
-    wget -qO- https://github.com/Yelp/elastalert/pull/2438/commits/0022a01f4cca0a83d4f26eed6ef137fcdae65f55.patch | patch -p1 && \
     # support index creation changes (see https://github.com/Yelp/elastalert/pull/1201)
     wget -qO- https://gist.githubusercontent.com/mmguero/3dde45220d0482a44873b493b46c47ba/raw/a6254b8d84ac325fde290ae5e32d94da2b503536/create_index.py.diff | patch -p1
 
