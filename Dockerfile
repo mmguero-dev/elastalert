@@ -9,7 +9,7 @@ ENV ELASTALERT_HOME /opt/elastalert
 
 WORKDIR /opt
 
-RUN apk add --update --no-cache ca-certificates openssl-dev openssl libffi-dev gcc musl-dev wget && \
+RUN apk add --update --no-cache ca-certificates openssl-dev openssl libffi-dev gcc patch musl-dev wget && \
 # Download and unpack Elastalert.
     wget -O elastalert.zip "${ELASTALERT_URL}" && \
     unzip elastalert.zip && \
